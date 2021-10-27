@@ -1,7 +1,9 @@
-import {makeStyles} from '@material-ui/core'
+import {makeStyles, Box} from '@material-ui/core'
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {setReposInStore} from '../../utils/setFunctions'
+import Spinner from '../Loader/Spinner'
+import RepoItem from './RepoItem';
 
 const useStyle = makeStyles({
   container: {
@@ -16,7 +18,6 @@ function RepoContainer() {
   const repos = useSelector(state => state.data)
   const fetch = useSelector(state => state.fetch)
   const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     console.log('fetch',fetch);
     console.log('repos',repos)
@@ -30,9 +31,14 @@ function RepoContainer() {
   }, [dispatch, fetch.myBoards, loading,])
   console.log('repos otuside',repos);
   return (
-    <div>
-        RepoContainer
-    </div>
+    <>
+    <Spinner isLoading={loading} />
+    <Box className={classes.container}>
+      {Object.keys(repos).map((key, index) => (
+        <RepoItem key={key} repo={repos[key]} />
+      ))}
+    </Box>
+  </>
   )
 }
 

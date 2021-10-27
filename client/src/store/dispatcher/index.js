@@ -1,4 +1,4 @@
-import { FETCH_REPOS, SET_REPOS } from "../types";
+import { FETCH_REPOS, SET_REPOS, EDIT_REPO } from "../types";
 const createFunc = (type) => {
   return (dispatch, data) => {
     try {
@@ -14,3 +14,4 @@ const createFunc = (type) => {
 export const setRepos = createFunc(SET_REPOS);
 
 export const fetchMyRepos = createFunc(FETCH_REPOS);
+export const editRepo = createFunc(EDIT_REPO);

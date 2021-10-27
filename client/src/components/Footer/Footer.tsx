@@ -17,11 +17,7 @@ function Footer() {
       }}
     >
       <TextElement font="bold" fontType="h5">
-        Made with
-      </TextElement>
-      <FavoriteIcon style={{fill: '#ed8e45', margin: '0px 10px'}} />
-      <TextElement font="bold" fontType="h5">
-        by Mohit Sojitra
+       Guardraillo
       </TextElement>
     </Box>
   )

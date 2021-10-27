@@ -2,6 +2,7 @@
     {
       "name": "Repo 1",
       "id": "1",
+      "bgColor": "#545AE2",
       "lists": [
         {
           "title": "Open",

@@ -8,7 +8,6 @@
    */
   import {
     FETCH_REPOS,
-    SET_INITIAL_STATE_FETCH_REDUCER,
   } from '../types';
   
   const initState = {
@@ -23,8 +22,6 @@
           ...state,
           myRepos: true,
         }
-      case SET_INITIAL_STATE_FETCH_REDUCER:
-        return {}
       default:
         return state
     }
