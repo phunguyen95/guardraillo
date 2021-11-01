@@ -7,10 +7,11 @@ import CustomDeleteIcon from '../Icon/DeleteIcon';
 import { makeStyles,Box } from '@material-ui/core'
 import { colors } from '../Theme/ColorPalette'
 import { TextElement } from '../common/TextElement'
-import { RepoItemProps } from './RepoItem'
 import { ApiAction } from '../../utils/apiActions';
 import { editRepo } from '../../store/dispatcher';
-import { HTTPResponseReturn,Repo } from '../../types/api';
+import {Repo } from '../../types/api';
+import {useHistory} from 'react-router-dom'
+
 export interface RepoCardProps {
     repo?:Repo
     title?:string,
@@ -46,6 +47,7 @@ const useStyle = makeStyles(props => ({
 export const RepoCard:FunctionComponent<RepoCardProps> = ({title,color,repo}) => {
     const classes = useStyle({color:  color || repo.bgColor})
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const handleEdit = useCallback(
       async ({titleError, title, color}) => {
@@ -64,10 +66,13 @@ export const RepoCard:FunctionComponent<RepoCardProps> = ({title,color,repo}) =>
       },
       [repo?.id, dispatch],
     )
-  
+    const handleRedirectToDetailsPage = useCallback(() => {
+      history.push(`/repo/${repo.id}`)
+    }, [repo?.id, history])
+
     return (
         <Box className={classes.card}>
-        <Box style={{cursor: 'pointer'}} >
+        <Box style={{cursor: 'pointer'}} onClick={handleRedirectToDetailsPage} >
           <TextElement font="bold" fontType="h5" className={classes.text}>
             {title || repo && repo.name|| 'Your titles goes here'}
           </TextElement>

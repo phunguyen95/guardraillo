@@ -6,7 +6,8 @@ import { ToastContainer } from 'react-toastify'
 import { colors } from './components/Theme/ColorPalette';
 import { Box } from '@material-ui/core'
 import MyRepos from './pages/MyRepos'
-import Header from './components/Header/Header'
+import Home from './pages/RepoDetails'
+import Header from './components/Header/Header';
 import 'react-toastify/dist/ReactToastify.css'
 import PublicRoute from './Routes/PublicRoute'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
@@ -31,6 +32,7 @@ function App() {
               <Header />
               <Switch>
                 <PublicRoute exact path="/" component={MyRepos} />
+                <PublicRoute exact path="/repo/:repoId" component={Home} />
               </Switch>
             </Router>
           </Box>

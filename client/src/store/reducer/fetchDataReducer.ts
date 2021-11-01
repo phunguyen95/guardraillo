@@ -8,6 +8,7 @@
    */
   import {
     FETCH_REPOS,
+    FETCH_INDIVIDUAL_REPO,
   } from '../types';
   
   const initState = {
@@ -22,6 +23,11 @@
           ...state,
           myRepos: true,
         }
+        case FETCH_INDIVIDUAL_REPO:
+          state.repos[action.payload] = true
+          return {
+            ...state,
+          }
       default:
         return state
     }

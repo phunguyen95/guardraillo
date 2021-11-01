@@ -10,6 +10,7 @@ const getRequest = async (path) => {
     const data = await res.text();
     return { statusCode: res.status, data };
   } catch (e) {
+    return { statusCode: 500, data: {} };
     console.log(`error in get Request (${path}) :- `, e);
   }
 };
@@ -24,12 +25,11 @@ const putRequest = async (path, body) => {
     };
 
     const res = await fetch(config.baseURL + path, params);
-
     const data = await res.text();
-    console.log("data", data);
     return { statusCode: res.status, data };
   } catch (e) {
     console.log(`error in PUT Request (${path}) :- `, e);
+    return { statusCode: 500, data: {} };
   }
 };
 export const ApiAction = {
