@@ -94,7 +94,7 @@ app.post("/api/repo", (req, res, next) => {
 app.delete("/api/repo/:id", (req, res) => {
   REPOS = REPOS.filter((repo) => repo.id !== req.params.id);
   return res
-    .status(204)
+    .status(200)
     .send({ message: "Yay! You have successfully delete repo" });
 });
 
