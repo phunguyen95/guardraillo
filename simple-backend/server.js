@@ -30,10 +30,13 @@ function makeList(title, cards = []) {
   };
 }
 
-function makeCard(text) {
+function makeCard(text, noteTicket = "") {
+  console.log("text", text);
+  console.log("noteTicket", noteTicket);
   return {
     text,
     id: uuid.v4(),
+    noteTicket,
   };
 }
 
@@ -233,7 +236,10 @@ app.get("/api/card/:id", (req, res, next) => {
 });
 
 app.post("/api/list/:id/card", (req, res, next) => {
+  console.log("req", req.params);
   const list = findList(req.params.id);
+  console.log("req", req.body);
+
   if (!list) {
     const err = new Error("List not found");
     err.status = 404;
@@ -241,14 +247,23 @@ app.post("/api/list/:id/card", (req, res, next) => {
   }
   const cardSchema = Joi.object().keys({
     text: Joi.string().required(),
+    noteTicket: Joi.string(),
   });
   const { error: validationError } = Joi.validate(req.body, cardSchema);
+  console.log("validationError", validationError);
   if (validationError) {
     const err = new Error("Bad request");
     err.status = 400;
     next(err);
   }
-  const card = makeCard(req.body.text);
+  let card;
+  if (req.body.noteTicket) {
+    card = makeCard(req.body.text, req.body.noteTicket);
+    list.cards.push(card);
+    return res.status(201).json(card);
+  }
+  card = makeCard(req.body.text);
+  console.log("card", card);
   list.cards.push(card);
   res.status(201).json(card);
 });
@@ -259,20 +274,23 @@ app.delete("/api/card/:id", (req, res) => {
       const cardIndex = list.cards.findIndex(
         (card) => card.id === req.params.id
       );
-      if (cardIndex) {
+      if (cardIndex >= 0) {
         list.cards.splice(cardIndex, 1);
         break;
       }
     }
   }
-  res.status(204).send();
+  res.status(200).send({ message: "success" });
 });
 
 app.put("/api/card/:id", (req, res, next) => {
   const cardSchema = Joi.object().keys({
     text: Joi.string().required(),
     id: Joi.string().required(),
+    noteTicket: Joi.string(),
   });
+  console.log("req", req.body);
+
   const { error: validationError } = Joi.validate(req.body, cardSchema);
   if (validationError) {
     const err = new Error("Bad request");
@@ -293,7 +311,10 @@ app.put("/api/card/:id", (req, res, next) => {
     return next(err);
   }
   card.text = req.body.text;
-  return res.status(204).send();
+  if (req.body.noteTicket) {
+    card["noteTicket"] = req.body.noteTicket;
+  }
+  return res.status(200).send({ message: "done", card });
 });
 
 app.use(function (req, res, next) {

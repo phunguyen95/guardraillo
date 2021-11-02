@@ -12,7 +12,8 @@ import DisplayItemContainer from './DisplayItemContainer'
 import Spinner from '../Loader/Spinner'
 import InputComponent from '../common/InputComponent';
 import AddItemComponent from '../common/AddItemComponent';
-
+import { STATE_NOT_ALLOW_DRAGGABLE_ITEM } from '../../constants/repo'
+import {addItemInContainer} from '../../store/dispatcher/index';
 function MainItemCard({listId, index, repoId}) {
   const [isAddItemShow, setIsAddItemShow] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -21,7 +22,6 @@ function MainItemCard({listId, index, repoId}) {
     () => data[repoId].lists.filter(list=>list.id === listId)[0],
     [repoId, data],
   )
-    console.log('container',container)
 
   const [title, setTitle] = useState(container.title)
 
@@ -31,16 +31,39 @@ function MainItemCard({listId, index, repoId}) {
     setIsAddItemShow(!isAddItemShow)
   }, [isAddItemShow])
 
+  const addItem = useCallback(
+    async (value) => {
+      setLoading(true);
+      const { statusCode, data } = await ApiAction.postRequest(
+        `/list/${listId}/card`,
+        { text: value }
+      );
 
+      setLoading(false);
+      if (statusCode === 400 || statusCode === 500) {
+        toast.error(data);
+        return;
+      }
+      const dataParsed = JSON.parse(data);
+      toast(`Congrats!, new ticket have been added under ${container.title} column`);
+      addItemInContainer(dispatch, {
+        index,
+        data:dataParsed,
+        repoId,
+        listId,
+      });
+    },
+    [repoId, listId, dispatch, index]
+  );
   return (
     <>
       <Spinner isLoading={loading} />
-      <Draggable draggableId={container.id.toString()} index={index}>
+      <Draggable draggableId={container.id.toString()} index={index}  isDragDisabled={title.indexOf(STATE_NOT_ALLOW_DRAGGABLE_ITEM)<= 0}>
         {provided => (
           <div {...provided.draggableProps} ref={provided.innerRef}>
             <div
               style={{
-                width: '300px',
+                width: '400px',
                 backgroundColor: 'grey',
                 padding: '0px 35px',
                 borderRadius: '6px',
@@ -51,27 +74,25 @@ function MainItemCard({listId, index, repoId}) {
               <Box {...provided.dragHandleProps}>
                 <ColumnHeader
                   title={title}
-                  setTitle={setTitle}
-                  repoId={repoId}
-                  listId={container.id}
-                  index={index}
                 />
               </Box>
 
               {/* Conatiner | Column Body */}
-              <Droppable droppableId={container.id.toString()}>
+              <Droppable droppableId={container.title} >
                 {provided => {
                   return (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                       <Box>
-                        {container.cards.map((card,index) => (
+                        {container.cards.map((card,cardIndex) => (
                           <DisplayItemContainer
-                            key={index}
+                            key={cardIndex}
                             itemId={card.id || index}
-                            index={index}
+                            index={cardIndex}
                             card={card}
                             repoId={repoId}
                             listId={container.id}
+                            listIndex={index}
+                            isDragDisabled={container.title === 'Fixed' || container.title === 'False Positive'}
                           />
                         ))}
                         {provided.placeholder}
@@ -80,6 +101,7 @@ function MainItemCard({listId, index, repoId}) {
                       {isAddItemShow ? (
                         <InputComponent
                           handleChange={handleChange}
+                          addItem={addItem}
                           buttonText={'Add'}
                           placeholder={'Please enter title'}
                         />

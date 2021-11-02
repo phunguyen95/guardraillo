@@ -79,12 +79,12 @@ export const RepoCard:FunctionComponent<RepoCardProps> = ({title,color,repo}) =>
         </Box>
         <Box className={classes.center}>
           <CustomEditIcon
-            toolTipText={'Edit Board'}
+            toolTipText={'Edit Repo'}
             isRepo={{edit: true, repo}}
             onClick={repo && handleEdit}
           />
           <CustomDeleteIcon
-            toolTipText={'Delete Board'}
+            toolTipText={'Delete Repo'}
           />
         </Box>
       </Box>

@@ -5,11 +5,11 @@ import {Draggable} from 'react-beautiful-dnd'
 import DisplayItem from './DisplayItem'
 
 const DisplayItemContainer = memo(
-  ({itemId, index,card,repoId,listId}) => {
-    console.log('DisplayItem run....')
+  ({itemId, index,card,repoId,listId,isDragDisabled,listIndex}) => {
+
 
     return (
-      <Draggable draggableId={itemId} index={index}>
+      <Draggable draggableId={itemId} index={index} isDragDisabled={isDragDisabled}>
         {provided => (
           <Box
             ref={provided.innerRef}
@@ -20,7 +20,9 @@ const DisplayItemContainer = memo(
               item={card}
               repoId={repoId}
               listId={listId}
-              index={index}
+              cardId={itemId}
+              cardIndex={index}
+              listIndex={listIndex}
             />
           </Box>
         )}

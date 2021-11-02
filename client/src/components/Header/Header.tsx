@@ -16,7 +16,7 @@ function Header() {
             <HomeIcon fontSize="large" style={{ fill: colors.lightBlue }} />
           </Link>
         </Toolbar>
-        <Toolbar>
+        <Toolbar>               
           <Link to="/" style={{ textDecoration: "none" }}>
             <TextElement textStyle={{ color: colors.lightBlue }}>GuardRaillo</TextElement>
           </Link>

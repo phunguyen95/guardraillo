@@ -150,7 +150,7 @@ function RepoModel({open, handleClose, handleSubmit, repo}:RepoModel) {
                 ...styles.submitbutton,
                 backgroundColor: color.color,
               }}
-              title={repo ? 'Edit Board' : 'Create Board'}
+              title={repo ? 'Edit Repo' : 'Create Repo'}
               onClick={_handleSubmit}
             />
           </Box>
