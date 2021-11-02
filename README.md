@@ -10,6 +10,7 @@
 +User is able to set color background for their repo \
 +User is able to see all the available repo \
 +User is able to drag and drop card item \
++User is able to add note for the card item \
 +User is able to view repo's details \
 **Instruction** \
 **Step 1**: Start back-end \
