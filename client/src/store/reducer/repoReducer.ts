@@ -5,6 +5,8 @@ import {
   EDIT_ITEM,
   DELETE_ITEM,
   CHANGE_ITEM_POSITION_IN_DIFFERNT_CONTAINER,
+  ADD_REPOS,
+  DELETE_REPO
 } from "../types";
 import { toast } from "react-toastify";
 import { ApiAction } from "../../utils/apiActions";
@@ -19,6 +21,16 @@ const repoReducer = (
   let newState: { [x: string]: Repo }, payload;
 
   switch (action.type) {
+    case ADD_REPOS:
+      newState = {
+        [action.payload.id]: {...action.payload},
+        ...state,
+      }
+      return newState
+    case DELETE_REPO: {
+      delete state[action.payload]
+      return {...state}
+    }
     case SET_REPOS: {
       newState = {};
       // eslint-disable-next-line array-callback-return
@@ -28,7 +40,6 @@ const repoReducer = (
       return newState;
     }
     case EDIT_REPO: {
-      console.log("action.payload", action.payload);
       state[action.payload.id] = {
         ...state[action.payload.id],
         name: action.payload.name,

@@ -8,7 +8,7 @@ import { makeStyles,Box } from '@material-ui/core'
 import { colors } from '../Theme/ColorPalette'
 import { TextElement } from '../common/TextElement'
 import { ApiAction } from '../../utils/apiActions';
-import { editRepo } from '../../store/dispatcher';
+import { editRepo , deleteRepo} from '../../store/dispatcher';
 import {Repo } from '../../types/api';
 import {useHistory} from 'react-router-dom'
 
@@ -69,7 +69,15 @@ export const RepoCard:FunctionComponent<RepoCardProps> = ({title,color,repo}) =>
     const handleRedirectToDetailsPage = useCallback(() => {
       history.push(`/repo/${repo.id}`)
     }, [repo?.id, history])
-
+    const handleDelete = useCallback(async () => {
+      const {statusCode, data} = await ApiAction.DeleteRequest(`/repo/${repo.id}`)
+      if (statusCode === 400 || statusCode === 500) {
+        toast.error(data)
+        return
+      }
+      deleteRepo(dispatch, repo.id)
+      toast(data)
+    }, [repo?.id, dispatch])
     return (
         <Box className={classes.card}>
         <Box style={{cursor: 'pointer'}} onClick={handleRedirectToDetailsPage} >
@@ -85,6 +93,8 @@ export const RepoCard:FunctionComponent<RepoCardProps> = ({title,color,repo}) =>
           />
           <CustomDeleteIcon
             toolTipText={'Delete Repo'}
+            onClick={repo && handleDelete}
+
           />
         </Box>
       </Box>

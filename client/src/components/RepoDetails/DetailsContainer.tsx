@@ -11,7 +11,10 @@ import MainItemCard from './MainItemCard'
 import { TextElement } from '../common/TextElement'
 import Spinner from '../Loader/Spinner'
 import { changePositionInSameContainer, changePositionInDiffrentContainer } from '../../store/dispatcher';
-function DetailsContainer({ repoId }) {
+interface DetailsContainer {
+  repoId: string,
+}
+function DetailsContainer({ repoId }:DetailsContainer) {
   const repo = useSelector(state => state.data)
   const fetch = useSelector(state => state.fetch)
   const [loading, setLoading] = useState(true)
@@ -36,7 +39,7 @@ function DetailsContainer({ repoId }) {
       else setLoading(false)
     })()
   }, [repoId, dispatch, fetch.repos, fetch.myRepos, replace])
-const moveCardItem = async (cardId) => {
+const moveCardItem = async (cardId:string) => {
   let { statusCode, data } = await ApiAction.DeleteRequest(
     `/card/${cardId}`
   );
@@ -47,7 +50,6 @@ const moveCardItem = async (cardId) => {
 }
   const handleDragEnd = useCallback(
     (result) => {
-      console.log("result 1", result);
       if (!result.destination) return;
 
       if (result.source.droppableId === result.destination.droppableId) {
@@ -112,7 +114,7 @@ const moveCardItem = async (cardId) => {
                   }}
                 >
                   {repo[repoId]?.lists &&
-                    columnArr.map(({ id }, index) => (
+                    columnArr.map(({ id }, index:number) => (
                       <MainItemCard
                         key={id}
                         listId={id}

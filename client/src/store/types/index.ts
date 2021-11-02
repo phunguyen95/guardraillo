@@ -3,6 +3,7 @@
 export const SET_REPOS = 'SET_REPOS';
 export const EDIT_REPO = 'EDIT_REPO';
 export const ADD_REPOS = 'ADD_REPOS';
+export const DELETE_REPO = 'DELETE_REPO';
 // Fetch Data Actions
 export const FETCH_REPOS = 'FETCH_REPOS';
 export const FETCH_INDIVIDUAL_REPO = 'FETCH_INDIVIDUAL_REPO';

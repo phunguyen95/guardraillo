@@ -8,7 +8,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 import {TextElement} from '../common/TextElement';
-
+interface ComfirmationDailouge {
+    description: string,
+    onOk: ()=>void,
+    onCancel: () => void,
+    open: boolean,
+}
 function PaperComponent(props) {
     return (
         <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
@@ -17,7 +22,7 @@ function PaperComponent(props) {
     );
 }
 
-export default function ComfirmationDailouge({ description, onOk, onCancel, open }) {
+export default function ComfirmationDailouge({ description, onOk, onCancel, open }:ComfirmationDailouge) {
 
     return (
 

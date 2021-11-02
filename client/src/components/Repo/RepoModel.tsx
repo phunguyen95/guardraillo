@@ -15,7 +15,7 @@ interface RepoModel {
   open: boolean,
   handleSubmit: (param: SubmitParam) => void,
   handleClose: () => void,
-  repo:Repo,
+  repo?:Repo | {},
 }
 interface SubmitParam  {
   titleError:string,
@@ -115,7 +115,7 @@ function RepoModel({open, handleClose, handleSubmit, repo}:RepoModel) {
         <Box style={{width: '100%'}}>
           <InputContainer
             textType="text"
-            inputLable="Title"
+            inputLabel="Title"
             inputValue={title}
             placeholder={'Please Enter your title'}
             onChange={handleNameChange}

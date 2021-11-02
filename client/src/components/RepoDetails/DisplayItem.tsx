@@ -16,6 +16,19 @@ import InputContainer from '../common/InputContainer'
 import { TextElement } from '../common/TextElement'
 import { editItemInContainer,deleteItemInContainer } from '../../store/dispatcher'
 import { ApiAction } from '../../utils/apiActions'
+interface DisplayItemProps {
+  item:ItemProps,
+  repoId: string,
+  listId: string,
+  cardId: string,
+  cardIndex: number,
+  listIndex: number,
+}
+interface ItemProps {
+  id: string,
+  noteTicket?: string | '',
+  text: string,
+}
 const useStyles = makeStyles(theme => ({
   container: {
     width: '550px',
@@ -46,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     margin: '20px 0px',
   },
 }))
-function DisplayItem({ item, repoId, listId, cardId, cardIndex, listIndex }) {
+function DisplayItem({ item, repoId, listId, cardId, cardIndex, listIndex }: DisplayItemProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
@@ -173,7 +186,7 @@ function DisplayItem({ item, repoId, listId, cardId, cardIndex, listIndex }) {
           <Box style={{ width: '100%' }}>
             <InputContainer
               textType="text"
-              inputLable="Title"
+              inputLabel="Title"
               inputValue={title}
               placeholder={'Please Enter your title'}
               onChange={handleNameChangeTitle}

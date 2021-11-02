@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { colors } from "../Theme/ColorPalette";
 import HomeIcon from "@material-ui/icons/Home";
 import { TextElement } from "../common/TextElement";
-
+import CreateRepo from "../CreateRepo/CreateRepo"
 function Header() {
   const classes = useStyles();
 
@@ -28,7 +28,9 @@ function Header() {
             alignItems: "center",
             justifyContent: "center ",
           }}
-        ></Box>
+        >
+          <CreateRepo />
+        </Box>
       </AppBar>
     </Box>
   );

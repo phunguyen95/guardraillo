@@ -14,7 +14,13 @@ import InputComponent from '../common/InputComponent';
 import AddItemComponent from '../common/AddItemComponent';
 import { STATE_NOT_ALLOW_DRAGGABLE_ITEM } from '../../constants/repo'
 import {addItemInContainer} from '../../store/dispatcher/index';
-function MainItemCard({listId, index, repoId}) {
+import {CardProps} from './DisplayItemContainer';
+interface MainItemCardProps { 
+ listId: string,
+ index: number,
+ repoId: string,
+}
+function MainItemCard({listId, index, repoId}:MainItemCardProps) {
   const [isAddItemShow, setIsAddItemShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const data = useSelector(state => state.data)
@@ -83,7 +89,7 @@ function MainItemCard({listId, index, repoId}) {
                   return (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                       <Box>
-                        {container.cards.map((card,cardIndex) => (
+                        {container.cards.map((card:CardProps,cardIndex: number) => (
                           <DisplayItemContainer
                             key={cardIndex}
                             itemId={card.id || index}

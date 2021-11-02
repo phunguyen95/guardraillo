@@ -19,15 +19,12 @@ function RepoContainer() {
   const fetch = useSelector(state => state.fetch)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    console.log('fetch',fetch);
-    console.log('repos',repos)
     if (!fetch.myRepos)
       setReposInStore(dispatch, () => {
         setLoading(false)
       })
     else setLoading(false)
   }, [dispatch, fetch.myRepos, loading,])
-  console.log('repos otuside',repos);
   return (
     <>
     <Spinner isLoading={loading} />

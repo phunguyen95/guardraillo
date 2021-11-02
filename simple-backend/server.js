@@ -18,7 +18,28 @@ function makeRepo(name, lists = []) {
   return {
     name,
     id: uuid.v4(),
-    lists,
+    lists: [
+      {
+        title: "Open",
+        id: uuid.v4(),
+        cards: [],
+      },
+      {
+        title: "Confirmed",
+        id: uuid.v4(),
+        cards: [],
+      },
+      {
+        title: "False Positive",
+        id: uuid.v4(),
+        cards: [],
+      },
+      {
+        title: "Fixed",
+        id: uuid.v4(),
+        cards: [],
+      },
+    ],
   };
 }
 
@@ -31,8 +52,6 @@ function makeList(title, cards = []) {
 }
 
 function makeCard(text, noteTicket = "") {
-  console.log("text", text);
-  console.log("noteTicket", noteTicket);
   return {
     text,
     id: uuid.v4(),
@@ -57,6 +76,7 @@ app.get("/api/repo/:id", (req, res, next) => {
 app.post("/api/repo", (req, res, next) => {
   const repoSchema = Joi.object().keys({
     name: Joi.string().min(1).required(),
+    bgColor: Joi.string(),
   });
   const { error: validationError } = Joi.validate(req.body, repoSchema);
   if (validationError) {
@@ -66,16 +86,19 @@ app.post("/api/repo", (req, res, next) => {
   }
   const repo = makeRepo(req.body.name);
   REPOS.push(repo);
-  return res.status(201).json(repo);
+  return res
+    .status(201)
+    .json({ message: "Yay!, You have successfully create repo", repo });
 });
 
 app.delete("/api/repo/:id", (req, res) => {
   REPOS = REPOS.filter((repo) => repo.id !== req.params.id);
-  return res.status(204).send();
+  return res
+    .status(204)
+    .send({ message: "Yay! You have successfully delete repo" });
 });
 
 app.put("/api/repo/:id", (req, res, next) => {
-  console.log("vaooo");
   const repoSchema = Joi.object().keys({
     name: Joi.string().required(),
     id: Joi.string().required(),
@@ -106,7 +129,6 @@ app.put("/api/repo/:id", (req, res, next) => {
   if (req.body.bgColor) {
     repo.bgColor = req.body.bgColor;
   }
-  console.log("repo", repo);
   return res
     .status(200)
     .send({ updatedRepo: repo, message: "Successfully update repo" });
@@ -236,9 +258,7 @@ app.get("/api/card/:id", (req, res, next) => {
 });
 
 app.post("/api/list/:id/card", (req, res, next) => {
-  console.log("req", req.params);
   const list = findList(req.params.id);
-  console.log("req", req.body);
 
   if (!list) {
     const err = new Error("List not found");
@@ -250,7 +270,6 @@ app.post("/api/list/:id/card", (req, res, next) => {
     noteTicket: Joi.string(),
   });
   const { error: validationError } = Joi.validate(req.body, cardSchema);
-  console.log("validationError", validationError);
   if (validationError) {
     const err = new Error("Bad request");
     err.status = 400;
@@ -263,7 +282,6 @@ app.post("/api/list/:id/card", (req, res, next) => {
     return res.status(201).json(card);
   }
   card = makeCard(req.body.text);
-  console.log("card", card);
   list.cards.push(card);
   res.status(201).json(card);
 });
@@ -289,7 +307,6 @@ app.put("/api/card/:id", (req, res, next) => {
     id: Joi.string().required(),
     noteTicket: Joi.string(),
   });
-  console.log("req", req.body);
 
   const { error: validationError } = Joi.validate(req.body, cardSchema);
   if (validationError) {

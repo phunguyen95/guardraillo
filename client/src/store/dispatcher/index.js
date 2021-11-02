@@ -10,6 +10,7 @@ import {
   CHANGE_ITEM_POSITION_IN_SAME_CONTAINER,
   CHANGE_ITEM_POSITION_IN_DIFFERNT_CONTAINER,
   ADD_REPOS,
+  DELETE_REPO,
 } from "../types";
 const createFunc = (type) => {
   return (dispatch, data) => {
@@ -25,7 +26,7 @@ const createFunc = (type) => {
 };
 export const setRepos = createFunc(SET_REPOS);
 export const addRepos = createFunc(ADD_REPOS);
-
+export const deleteRepo = createFunc(DELETE_REPO);
 export const fetchMyRepos = createFunc(FETCH_REPOS);
 export const editRepo = createFunc(EDIT_REPO);
 export const fetchIndividualRepo = createFunc(FETCH_INDIVIDUAL_REPO);

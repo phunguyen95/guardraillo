@@ -4,7 +4,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ComfirmationDailouge from '../Modal/ConfirmationDialouge';
 import { colors } from '../Theme/ColorPalette';
 
-function CustomDeleteIcon({ fillColor, styles, toolTipText, onClick }) {
+interface CustomDeleteIcon {
+    fillColor: string,
+    toolTipText: string,
+    onClick: ()=>void,
+    styles: React.CSSProperties
+}
+function CustomDeleteIcon({ fillColor, styles, toolTipText, onClick }:CustomDeleteIcon) {
     const [open, setOpen] = React.useState(false);
     const _handleClick = useCallback(
         () => {

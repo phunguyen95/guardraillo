@@ -2,7 +2,9 @@ import {Box, makeStyles} from '@material-ui/core'
 import React, {memo, useCallback, useMemo, useState} from 'react'
 import {TextElement} from '../common/TextElement';
 
-
+interface ColumnHeader {
+  title: string,
+}
 const useStyles = makeStyles(theme => ({
   container: {
     width: '550px',
@@ -35,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 function ColumnHeader({
   title,
-}) {
+}:ColumnHeader) {
   return (
     <div>
       <Box

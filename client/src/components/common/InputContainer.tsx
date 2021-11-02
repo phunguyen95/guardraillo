@@ -1,6 +1,14 @@
 import React from "react";
 import { makeStyles, TextField } from "@material-ui/core";
 import { colors } from "../Theme/ColorPalette";
+interface InputContainerProps {
+  error: boolean,
+  inputLabel: string,
+  placeholder: string,
+  inputValue: string,
+  errorMessage: React.ComponentType<{errorMessage: string}>;
+  textType: string,
+}
 const useStyle = makeStyles({
   container: {
     // width: "65%",
@@ -51,7 +59,7 @@ const styles = {
     color: colors.lightGrey,
   },
 };
-function InputContainer({ error, inputLable, placeholder, inputValue, errorMessage, textType, ...rest }) {
+function InputContainer({ error, inputLabel, placeholder, inputValue, errorMessage, textType, ...rest }:InputContainerProps ) {
   const classes = useStyle();
   return (
     <TextField
@@ -66,7 +74,7 @@ function InputContainer({ error, inputLable, placeholder, inputValue, errorMessa
       }}
       classes={!error ? { root: classes.inputWrapper } : { root: classes.errorWrapper }}
       id={error ? "outlined-error-helper-text" : "outlined-helperText"}
-      label={inputLable}
+      label={inputLabel}
       type={textType}
       defaultValue={inputValue}
       placeholder={placeholder}
